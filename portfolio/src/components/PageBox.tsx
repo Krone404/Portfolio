@@ -1,11 +1,14 @@
-
-
-function PageBox() {
-  return (
-    <div className="container mx-auto">
-      
-    </div>
-  )
+interface Props {
+  title: string;
+  children: string;
 }
 
-export default PageBox
+const PageBox = ({ title, children }: Props) => {
+  return (
+    <div id={(title.toLowerCase()).replace(" ", "-")} className="container mx-auto pageBox">
+      <h1>{title}</h1>
+      <div>{children}</div>
+    </div>
+  );
+};
+export default PageBox;
