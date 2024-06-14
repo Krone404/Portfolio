@@ -30,7 +30,7 @@ function App() {
         </PageBox>
         <PageBox title="About Me">
           <h1>About Me</h1>
-          <p>Stuff about me</p>
+          <p>Hi! I'm Cameron, a Software Engineering student at Bournemouth University. I love tech and creating cool solutions to everyday problems. I've learned a lot about programming with Java, Python, and JavaScript, and I enjoy web development with HTML, CSS, React, and Node.js. I'm also familiar with Agile methods, Git, and database management with SQL and MongoDB. I believe in always learning and working together with others. My goal is to work on projects that make a difference and be part of a tech community that’s always pushing boundaries.</p>
           <DownloadButton fileDir="./CV/CV_Public.pdf" fileName="CV_Public.pdf">Download</DownloadButton>
         </PageBox>
         <PageBox title="Projects">
