@@ -19,6 +19,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon/16x16.svg" sizes="16x16" type="image/svg+xml" />
+        <link rel="icon" href="/favicon/32x32.svg" sizes="32x32" type="image/svg+xml" />
+        <link rel="icon" href="/favicon/48x48.svg" sizes="48x48" type="image/svg+xml" />
+        <link rel="icon" href="/favicon/64x64.svg" sizes="64x64" type="image/svg+xml" />
+        <link rel="icon" href="/favicon/128x128.svg" sizes="128x128" type="image/svg+xml" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
