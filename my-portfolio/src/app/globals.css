@@ -3,19 +3,28 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #c9f2c7; /* Tea Green */
+  --foreground: #243119; /* Dark Green */
+  --primary: #629460;    /* Asparagus */
+  --secondary: #96be8c;  /* Olivine */
+  --accent: #aceca1;     /* Light Green */
 }
 
+/* Dark Mode Support */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* --background: #243119; Dark Green */
+    /* --foreground: #c9f2c7; Tea Green */
   }
 }
 
+/* Apply Custom Variables Globally */
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.main-container {
+  @apply max-w-screen-lg mx-auto px-8 py-10 bg-background rounded-lg shadow-lg;
 }
