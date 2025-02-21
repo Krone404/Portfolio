@@ -26,5 +26,7 @@ body {
 }
 
 .main-container {
-  @apply max-w-screen-lg mx-auto px-8 py-10 bg-background rounded-lg shadow-lg;
+  @apply flex items-center justify-center min-h-screen max-w-screen-lg mx-auto px-8 py-10 bg-background rounded-lg shadow-lg;
 }
+
+

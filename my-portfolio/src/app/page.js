@@ -3,12 +3,12 @@ import Image from "next/image";
 export default function Home() {
   return (
     <div>
-      <h1>My Portfolio</h1>
+      <h1>Under Development</h1>
       <Image
-        src="favicon/48x48.svg"
-        alt="My Portfolio"
-        width={48}
-        height={48}
+        src="/favicon/180x180.svg"
+        alt="favicon"
+        width={128}
+        height={128}
       />
     </div>
   );
