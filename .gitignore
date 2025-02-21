@@ -1,6 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
+# Dependencies
 /node_modules
 /.pnp
 .pnp.*
@@ -10,27 +10,27 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
+# Testing
 /coverage
 
-# next.js
+# Next.js build output
 /.next/
 .next/cache
 /out/
 
-# production
+# Production build
 /build
 
-# misc
+# Miscellaneous
 .DS_Store
 .Spotlight-V100
 .Trashes
 *.pem
 
-# editor settings
+# Editor settings
 .vscode/
 
-# shadcn
+# shadcn generated files
 .shadcn
 
 # Tailwind CSS debug logs
@@ -41,18 +41,30 @@ tailwind-debug.log
 /yarn.lock
 /pnpm-lock.yaml
 
-# debug logs
+# Debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# Environment variables (opt-in if needed)
 .env*
 
-# vercel
+# Vercel deployment settings
 .vercel
 
-# typescript
+# TypeScript files
 *.tsbuildinfo
 next-env.d.ts
+
+# GitHub Pages Deployment
+# Ignore the gh-pages branch locally but allow it to deploy remotely
+gh-pages/
+
+# Manual Deployment
+# Ignore manually deployed files locally, only push them to gh-pages branch
+/manual-deploy/
+
+# Cache and temporary files
+*.log
+*.tmp
