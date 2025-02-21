@@ -1,20 +1,12 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-    output: 'export',
+    output: 'export', // Enable static export
     images: {
-      unoptimized: true,
+      unoptimized: true, // Required for static images on GitHub Pages
     },
-    basePath: '/Portfolio', // Replace with your repo name
-    assetPrefix: '/Portfolio/',
-    exportPathMap: async function (
-      defaultPathMap,
-      { dev, dir, outDir, distDir, buildId }
-    ) {
-      return {
-        ...defaultPathMap,
-        '/.nojekyll': { page: '/' }, // Include the .nojekyll file in the export
-      };
-    },
+    basePath: '/Portfolio', // Replace with your repository name (case-sensitive)
+    assetPrefix: '/Portfolio/', // Ensures assets load correctly
   };
   
-  module.exports = nextConfig;
+  export default nextConfig;
   
