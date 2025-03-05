@@ -1,0 +1,74 @@
+:root {
+  --primary: #010000; /* Near Black */
+  --secondary: #fefefe; /* Near White */
+  --accent: #020101; /* Slightly off Black */
+  --background: #ffffff; /* Pure White */
+  --dark: #000000; /* True Black */
+}
+
+.primary {
+  background-color: var(--primary);
+  color: var(--secondary); /* Near White */
+}
+
+.secondary {
+  background-color: var(--secondary);
+  color: var(--primary); /* Near Black */
+}
+
+.accent {
+  background-color: var(--accent);
+  color: var(--secondary); /* Near White */
+}
+
+.background {
+  background-color: var(--background);
+  color: var(--primary); /* Near Black */
+}
+
+.dark {
+  background-color: var(--dark);
+  color: var(--secondary); /* Near White */
+}
+
+/* Navbar Styling */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--background); /* Dynamic background color */
+  transition: box-shadow 0.3s ease-out;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0); /* No shadow initially */
+}
+
+.navbar:hover {
+  box-shadow: 0px 5px 15px rgba(1, 0, 0, 0.5); /* Slightly off-black shadow */
+}
+
+/* Scroll Snapping */
+.snap-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: auto;
+  height: 100vh; /* Full viewport height */
+  -webkit-overflow-scrolling: touch; /* Enhances smoothness on mobile */
+}
+
+/* Hide scrollbar */
+.snap-container::-webkit-scrollbar {
+  display: none;
+}
+
+.snap-container {
+  -ms-overflow-style: none; /* Hides scrollbar in IE, Edge */
+  scrollbar-width: none; /* Hides scrollbar in Firefox */
+}
+
+/* Snap Sections */
+.snap-section {
+  scroll-snap-align: start;
+  height: 100vh; /* Ensures only one section is on screen */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
