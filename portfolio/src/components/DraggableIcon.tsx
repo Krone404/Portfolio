@@ -1,23 +1,28 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { Draggable } from "gsap/Draggable";
 
 gsap.registerPlugin(Draggable);
 
-function DraggableIcon() {
-  const iconRef = useRef(null);
+interface DraggableIconProps {
+  darkMode?: boolean;
+}
+
+function DraggableIcon({ darkMode = false }: DraggableIconProps) {
+  const iconRef = useRef<HTMLImageElement>(null);
   const maxRadius = 15;
 
   useEffect(() => {
+    if (!iconRef.current) return;
     Draggable.create(iconRef.current, {
       type: "x,y",
       onDrag: function () {
-        let dx = this.x;
-        let dy = this.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
+        const dx = this.x;
+        const dy = this.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
 
         if (distance > maxRadius) {
-          let angle = Math.atan2(dy, dx);
+          const angle = Math.atan2(dy, dx);
           gsap.set(this.target, {
             x: Math.cos(angle) * maxRadius,
             y: Math.sin(angle) * maxRadius,
@@ -35,13 +40,18 @@ function DraggableIcon() {
     });
   }, []);
 
+  // Choose icon based on darkMode prop
+  const iconSrc = darkMode
+    ? "/images/icon-darkmode.png"
+    : "/images/icon-lightmode.png";
+
   return (
     <div className="relative navbar-brand">
       <img
         ref={iconRef}
-        src="/favicon/48x48.svg"
+        src={iconSrc}
         alt="Draggable Favicon"
-        className="w-12 h-12 cursor-pointer select-none"
+        className="draggable-icon cursor-pointer select-none"
       />
     </div>
   );

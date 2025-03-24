@@ -1,34 +1,60 @@
 :root {
-  --primary: #010000; /* Near Black */
-  --secondary: #fefefe; /* Near White */
-  --accent: #020101; /* Slightly off Black */
-  --background: #ffffff; /* Pure White */
-  --dark: #000000; /* True Black */
+  --near_black: #010000; /* Near Black */
+  --near_white: #fefefe; /* Near White */
+  --slightly_off_black: #020101; /* Slightly off Black */
+  --true_black: #000000; /* True Black */
+  --pure_white: #ffffff; /* Pure White */
+  --slightly_off_white: #f7f7f7; /* Slightly off White */
+  --more_off_white: #ececec; /* More Off White */
+  --more_off_black: #121212; /* More Off Black */
+}
+
+body.dark-mode {
+  /* Swap colors for dark mode */
+  --pure_white: #000000;
+  --true_black: #ffffff;
+  --near_white: #010000;
+  --near_black: #fefefe;
+  --slightly_off_white: #121212;
+  --slightly_off_black: #f7f7f7;
+  --more_off_white: #121212;
+  --more_off_black: #ececec;
 }
 
 .primary {
-  background-color: var(--primary);
-  color: var(--secondary); /* Near White */
+  background-color: var(--near_black);
+  color: var(--near_white); /* Near White */
 }
 
 .secondary {
-  background-color: var(--secondary);
-  color: var(--primary); /* Near Black */
+  background-color: var(--near_white);
+  color: var(--near_black); /* Near Black */
 }
 
 .accent {
-  background-color: var(--accent);
-  color: var(--secondary); /* Near White */
+  background-color: var(--slightly_off_black);
+  color: var(--near_white); /* Near White */
 }
 
 .background {
-  background-color: var(--background);
-  color: var(--primary); /* Near Black */
+  background-color: var(--pure_white);
+  color: var(--near_black); /* Near Black */
 }
 
 .dark {
-  background-color: var(--dark);
-  color: var(--secondary); /* Near White */
+  background-color: var(--true_black);
+  color: var(--near_white); /* Near White */
+}
+
+body {
+  background-color: var(--pure_white);
+  color: var(--near_black);
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Montserrat", sans-serif;
 }
 
 /* Navbar Styling */
@@ -37,20 +63,100 @@
   top: 0;
   left: 0;
   width: 100%;
-  background-color: var(--background); /* Dynamic background color */
+  height: 88px;
+  background-color: var(--pure_white); /* Dynamic background color */
   transition: box-shadow 0.3s ease-out;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0); /* No shadow initially */
+}
+
+.draggable-icon {
+  width: 48px;
+  height: 48px;
 }
 
 .navbar:hover {
   box-shadow: 0px 5px 15px rgba(1, 0, 0, 0.5); /* Slightly off-black shadow */
 }
 
+body.dark-mode .navbar:hover {
+  box-shadow: 0px 5px 15px rgba(255, 254, 254, 0.5);
+}
+
+body.dark-mode .toggle-dark-mode {
+  filter: brightness(0) saturate(100%) invert(100%) sepia(74%) saturate(2%)
+    hue-rotate(106deg) brightness(111%) contrast(101%);
+}
+
+.toggle-dark-mode {
+  filter: brightness(0) saturate(100%) invert(0%) sepia(100%) saturate(7500%)
+    hue-rotate(347deg) brightness(105%) contrast(111%);
+}
+
+/* Nav Item Hover Effect */
+.nav-hover-effect {
+  --c: var(--near_white);
+  --b: 0.1em;
+  --d: 5px;
+  --h: 1.2em;
+  --_s: calc(var(--d) + var(--b));
+  color: var(--true_black);
+  border: var(--b) solid transparent;
+  border-width: var(--b) var(--_s) var(--_s) var(--b);
+  overflow: hidden;
+  background:
+    linear-gradient(var(--c) 0 0) -1px 100% / 101% var(--_p, 0%) no-repeat,
+    conic-gradient(
+      from -90deg at right var(--d) bottom var(--d),
+      var(--pure_white) 90deg,
+      transparent 0 225deg,
+      transparent 0
+    ) border-box,
+    conic-gradient(
+      at right var(--_s) bottom var(--_s),
+      var(--c) 270deg,
+      transparent 0
+    ) 100% 100% / calc(100% - var(--b)) calc(100% - var(--b)) border-box;
+  transform: translate(var(--d), var(--d));
+  clip-path: polygon(
+    0% 0%,
+    calc(100% - var(--d)) 0%,
+    calc(100% - var(--d)) 0%,
+    calc(100% - var(--d)) calc(100% - var(--d)),
+    0 calc(100% - var(--d)),
+    0 calc(100% - var(--d))
+  );
+}
+
+.nav-hover-effect:hover {
+  border-color: var(--true_black);
+  transform: translate(0, 0);
+  clip-path: polygon(
+    0% 0%,
+    calc(100% - var(--d)) 0%,
+    100% var(--d),
+    100% 100%,
+    var(--d) 100%,
+    0 calc(100% - var(--d))
+  );
+  --_t: var(--h);
+  --_p: 105%;
+}
+
+.nav-item a {
+  color: var(--true_black);
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: var(--true_black) !important;
+}
+
 /* Scroll Snapping */
 .snap-container {
   scroll-snap-type: y mandatory;
   overflow-y: auto;
-  height: 100vh; /* Full viewport height */
+  height: calc(100vh - 88px) !important;
+  margin-top: 88px;
   -webkit-overflow-scrolling: touch; /* Enhances smoothness on mobile */
 }
 
@@ -64,11 +170,175 @@
   scrollbar-width: none; /* Hides scrollbar in Firefox */
 }
 
+.snap-container {
+  background-color: var(--pure_white);
+  color: var(--near_black);
+}
+
 /* Snap Sections */
 .snap-section {
+  height: calc(100vh - 88px) !important;
   scroll-snap-align: start;
-  height: 100vh; /* Ensures only one section is on screen */
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.img-max-height {
+  max-height: 80%;
+  object-fit: contain; /* Keeps entire image visible within the box */
+}
+
+/* Projects Carousel Container */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 2rem auto; /* centers the carousel */
+  overflow: hidden;
+}
+
+.arrow-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px; /* Make width and height the same */
+  height: 50px;
+  background-color: var(--pure_white);
+  border: 2px solid var(--more_off_white);
+  border-radius: 50%; /* This ensures it's a circle */
+  cursor: pointer;
+  z-index: 1;
+  display: flex; /* Center the arrow inside */
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.3s ease;
+}
+
+.arrow-btn img {
+  width: 30px; /* Adjust the arrow size if needed */
+  height: auto;
+  transition: filter 0.3s ease;
+}
+
+body.dark-mode .arrow-btn img {
+  filter: brightness(0) saturate(100%) invert(99%) sepia(6%) saturate(0%)
+    hue-rotate(184deg) brightness(108%) contrast(85%);
+}
+
+.arrow-left {
+  left: 10px;
+}
+
+.arrow-right {
+  right: 10px;
+}
+
+.arrow-btn.disabled {
+  cursor: default;
+}
+
+.arrow-btn.disabled img {
+  filter: brightness(0) saturate(100%) invert(100%) sepia(2%) saturate(621%)
+    hue-rotate(201deg) brightness(117%) contrast(85%);
+}
+
+body.dark-mode .arrow-btn.disabled img {
+  filter: brightness(0) saturate(100%) invert(0%) sepia(5%) saturate(2610%)
+    hue-rotate(336deg) brightness(109%) contrast(86%);
+}
+
+.arrow-btn:not(:disabled):hover {
+  border-color: var(--more_off_black);
+}
+
+/* Track Container that masks the overflow */
+.carousel-track-container {
+  overflow: hidden;
+  width: 100%;
+}
+
+/* The track that holds all the slides */
+.carousel-track {
+  display: flex;
+  justify-content: space-evenly;
+  transition: transform 0.5s ease-in-out;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Each slide (card) within the track */
+.carousel-slide {
+  flex: 0 0 auto;
+
+  /* Adjust width based on how many cards you want to display at once */
+  width: calc(100% / 4); /* Shows 3 cards per view */
+  padding: 0 10px; /* Optional: spacing between cards */
+  box-sizing: border-box;
+}
+
+.card {
+  height: 100% !important;
+  background-color: var(--pure_white) !important;
+}
+
+body.dark-mode .card {
+  border-color: var(--more_off_white) !important;
+}
+
+/* Optional: Responsive adjustments */
+@media (max-width: 768px) {
+  .carousel-slide {
+    width: calc(100% / 3); /* 2 cards per view on medium screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-slide {
+    width: calc(100% / 2); /* 1 card per view on small screens */
+  }
+}
+
+.social-media-icon-container {
+  display: flex;
+  justify-content: center; /* Align icons to the center horizontally */
+  align-items: center; /* Align icons vertically */
+  gap: 75px; /* Space between icons */
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: clamp(100px, 15vw, 140px); /* Fluid size: minimum 100px, max 140px */
+  height: clamp(100px, 15vw, 140px); /* Fluid size: minimum 100px, max 140px */
+  background-color: var(--near_white); /* Using your theme variable */
+  border: 2px solid var(--more_off_white); /* Using your new variable */
+  border-radius: 10%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover Effects (Glow colours remain unchanged) */
+#linkedin div:hover {
+  box-shadow: 0px 0px 40px 10px rgba(0, 119, 181, 255);
+  border: 2px solid rgba(0, 119, 181, 255);
+  transform: scale(1.1);
+}
+
+#github div:hover {
+  box-shadow: 0px 0px 40px 10px rgba(92, 107, 192, 255);
+  border: 2px solid rgba(92, 107, 192, 255);
+  transform: scale(1.1);
+}
+
+#email div:hover {
+  box-shadow: 0px 0px 40px 10px rgba(244, 67, 54, 255);
+  border: 2px solid rgba(244, 67, 54, 255);
+  transform: scale(1.1);
+}
+
+.image-container img {
+  width: clamp(70px, 10vw, 100px); /* Fluid size: minimum 70px, max 100px */
+  height: clamp(70px, 10vw, 100px); /* Fluid size: minimum 70px, max 100px */
 }
