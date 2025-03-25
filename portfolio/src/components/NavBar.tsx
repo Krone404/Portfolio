@@ -8,7 +8,12 @@ interface NavBarProps {
   toggleDarkMode: () => void;
 }
 
-const NavBar: React.FC<NavBarProps> = ({ icon, children, darkMode, toggleDarkMode }) => {
+const NavBar: React.FC<NavBarProps> = ({
+  icon,
+  children,
+  darkMode,
+  toggleDarkMode,
+}) => {
   return (
     <nav className="navbar navbar-expand-lg fixed-top">
       <div className="container">
@@ -17,12 +22,11 @@ const NavBar: React.FC<NavBarProps> = ({ icon, children, darkMode, toggleDarkMod
           {icon}
         </a>
 
-        {/* Collapsible Navbar Button for Small Screens */}
         <button
-          className="navbar-toggler"
+          className="navbar-toggler custom-toggler"
           type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
           aria-controls="navbarNav"
           aria-expanded="false"
           aria-label="Toggle navigation"
@@ -31,16 +35,18 @@ const NavBar: React.FC<NavBarProps> = ({ icon, children, darkMode, toggleDarkMod
         </button>
 
         {/* Navbar Items */}
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav">
-            {children}
-          </ul>
+        <div className="collapse navbar-collapse custom-collapse" id="navbarNav">
+          <ul className="navbar-nav">{children}</ul>
           {/* Dark Mode Toggle Button on the Right */}
           <div className="d-flex align-items-center ms-auto">
             <button className="btn btn-link" onClick={toggleDarkMode}>
               <img
                 className="toggle-dark-mode"
-                src={darkMode ? "/images/light-mode-svgrepo-com.svg" : "/images/moon-svgrepo-com.svg"}
+                src={
+                  darkMode
+                    ? "/images/light-mode-svgrepo-com.svg"
+                    : "/images/moon-svgrepo-com.svg"
+                }
                 alt="Toggle Dark Mode"
                 style={{ width: "30px", height: "30px" }}
               />

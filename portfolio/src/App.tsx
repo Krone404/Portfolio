@@ -9,7 +9,8 @@ import Image from "./components/Image";
 import SocialMedia from "./components/SocialMedia";
 import ProjectsCarousel from "./components/ProjectsCarousel";
 
-import "bootstrap/dist/css/bootstrap.min.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import "./App.css";
 
 gsap.registerPlugin(ScrollToPlugin);
@@ -288,7 +289,7 @@ const App: React.FC = () => {
           }}
         >
           <div
-            className="modal-content"
+            className="container modal-content"
             onClick={(e) => e.stopPropagation()}
             style={{ position: "relative" }}
           >
@@ -297,8 +298,8 @@ const App: React.FC = () => {
               onClick={closeModal}
               style={{
                 position: "absolute",
-                top: "10px",
-                right: "10px",
+                top: "5px",
+                right: "20px",
                 background: "none",
                 border: "none",
                 color: "#fff",
