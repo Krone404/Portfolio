@@ -177,12 +177,41 @@ body.dark .custom-toggler .navbar-toggler-icon {
   background-color: var(--pure_white);
 }
 
-.custom-collapse.show {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+/* ===========================
+   Collapsed Navbar Spacing
+   =========================== */
+
+/* 1. Nav container: full-width flex + centered items with gaps */
+.custom-collapse.collapsing .navbar-nav,
+.custom-collapse.show .navbar-nav {
+  display: flex !important;
+  width: 100% !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 1rem !important; /* space between each nav-item */
 }
+
+/* 2. Strip any automatic margins on the <li> elements */
+.custom-collapse.collapsing .nav-item,
+.custom-collapse.show .nav-item {
+  margin: 0 !important;
+}
+
+/* 3. Uniform padding on all links */
+.custom-collapse.collapsing .nav-link,
+.custom-collapse.show .nav-link {
+  padding: 5px 10px !important;
+}
+
+/* 4. Dark-mode toggle button: center & add top spacing */
+.custom-collapse.collapsing .btn.btn-link,
+.custom-collapse.show .btn.btn-link {
+  display: block !important;
+  margin: 1rem auto 0 auto !important; /* 1rem above, auto sides */
+  align-self: center !important;
+}
+
+
 
 /* Scroll Snapping */
 .snap-container {
@@ -217,6 +246,16 @@ body.dark .custom-toggler .navbar-toggler-icon {
   align-items: center;
 }
 
+/* Make the inner wrapper scrollable */
+.snap-section .section-content {
+  height: 100%; /* fill the snap-section */
+  overflow-y: auto; /* allow normal scrolling inside */
+  -webkit-overflow-scrolling: touch; /* smooth on iOS */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .img-max-height {
   max-height: 80%;
   object-fit: contain; /* Keeps entire image visible within the box */
@@ -224,8 +263,12 @@ body.dark .custom-toggler .navbar-toggler-icon {
 
 /* Projects Carousel Container */
 .carousel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   width: 100%;
+  height: calc(100% - 88px) !important; /* Full height minus navbar */
   max-width: 1200px;
   margin: 2rem auto; /* centers the carousel */
   overflow: hidden;
@@ -306,7 +349,7 @@ body.dark-mode .arrow-btn.disabled img {
   flex: 0 0 auto;
 
   /* Adjust width based on how many cards you want to display at once */
-  width: calc(100% / 4); /* Shows 3 cards per view */
+  width: calc(100vw / 5); /* Shows 3 cards per view */
   padding: 0 10px; /* Optional: spacing between cards */
   box-sizing: border-box;
 }
@@ -321,19 +364,40 @@ body.dark-mode .card {
   color: var(--true_black);
 }
 
-/* Optional: Responsive adjustments */
+/* 2 cards per view once viewport is under 992px */
+@media (max-width: 992px) {
+  .carousel-slide {
+    width: calc(100vw / 4);
+  }
+}
+
+/* 1 card per view once viewport is under 768px */
 @media (max-width: 768px) {
   .carousel-slide {
-    width: calc(100% / 3); /* 2 cards per view on medium screens */
+    width: calc(100vw / 3);
   }
 }
 
-@media (max-width: 480px) {
-  .carousel-slide {
-    width: calc(100% / 2); /* 1 card per view on small screens */
+/* 1 card per view once viewport is under 768px */
+@media (max-width: 576px) {
+  .card {
+    min-width: calc(100% / 2) !important; /* 2 cards per view */
   }
 }
 
+.social-media-icon-container {
+  display: flex;
+  justify-content: center; /* Align icons to the center horizontally */
+  align-items: center; /* Align icons vertically */
+  gap: 75px; /* Space between icons */
+}
+
+@media (max-width: 768px) {
+  .social-media-icon-container {
+    flex-direction: column;
+    gap: 50px; /* Adjust space between icons for smaller screens */
+  }
+}
 .social-media-icon-container {
   display: flex;
   justify-content: center; /* Align icons to the center horizontally */
@@ -375,4 +439,81 @@ body.dark-mode .card {
 .image-container img {
   width: clamp(70px, 10vw, 100px); /* Fluid size: minimum 70px, max 100px */
   height: clamp(70px, 10vw, 100px); /* Fluid size: minimum 70px, max 100px */
+}
+
+/* Make room for your navbar at the top */
+:root {
+  --navbar-height: 88px;
+  --view-image-btn-height: 3rem; /* approximate height of your button + margin */
+}
+
+/* Ensure the section fills the viewport minus navbar */
+#about.snap-section {
+  scroll-snap-align: start;
+  min-height: calc(100vh - var(--navbar-height));
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+/* Constrain the container so nothing overflows into the next section */
+#about .container {
+  max-height: calc(100vh - var(--navbar-height) - 2rem);
+  overflow: hidden;
+}
+
+/* Adjusted scroll‐pane height to make room for the button */
+#about .text-scroll-pane {
+  height: calc(100vh - var(--navbar-height) - 5rem - 3rem);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 1rem;
+}
+
+/* Mobile-only View Image button styling */
+#about .view-image-btn {
+  width: auto;
+  margin-top: 1rem;
+}
+/* truncate descriptions to 3 lines with “…” */
+/* base: clamp to 2 lines (for the 2-card view at ≥480px & <1024px) */
+.card-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 6;
+}
+
+/* 1-card view (<480px) → clamp to 1 line */
+@media (max-width: 479px) {
+  .card-text {
+    -webkit-line-clamp: 3;
+  }
+}
+
+/* 3-card view (≥1024px) → clamp to 3 lines */
+@media (min-width: 1024px) {
+  .card-text {
+    -webkit-line-clamp: 12;
+  }
+}
+
+/* Custom scrollbar for the About text pane */
+#about-text::-webkit-scrollbar {
+  width: 12px;
+}
+
+#about-text::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: var(--pure_white);
+  border: 1px solid var(--more_off_white);
+  box-shadow: inset 0 0 6px rgba(0, 1, 1, 0.3);
+}
+
+body.dark-mode #about-text::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(255, 254, 254, 0.3);
+}
+
+#about-text::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: var(--slightly_off_black);
 }

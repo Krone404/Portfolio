@@ -9,8 +9,8 @@ import Image from "./components/Image";
 import SocialMedia from "./components/SocialMedia";
 import ProjectsCarousel from "./components/ProjectsCarousel";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./App.css";
 
 gsap.registerPlugin(ScrollToPlugin);
@@ -70,13 +70,18 @@ const App: React.FC = () => {
   useEffect(() => {
     const snapContainer = snapContainerRef.current;
     if (!snapContainer) return;
-    sectionsRef.current = Array.from(document.querySelectorAll(".snap-section"));
+    sectionsRef.current = Array.from(
+      document.querySelectorAll(".snap-section")
+    );
     snapContainer.style.overflow = "hidden";
     snapContainer.scrollTop = 0;
     const handleWheel = (event: WheelEvent) => {
       if (isScrolling.current) return;
       event.preventDefault();
-      if (event.deltaY > 0 && currentSectionIndex.current < sectionsRef.current.length - 1) {
+      if (
+        event.deltaY > 0 &&
+        currentSectionIndex.current < sectionsRef.current.length - 1
+      ) {
         scrollToSection(currentSectionIndex.current + 1);
       } else if (event.deltaY < 0 && currentSectionIndex.current > 0) {
         scrollToSection(currentSectionIndex.current - 1);
@@ -89,25 +94,56 @@ const App: React.FC = () => {
   useEffect(() => {
     const snapContainer = snapContainerRef.current;
     if (!snapContainer) return;
+
     let touchStartY = 0;
     let touchEndY = 0;
     const threshold = 50;
+
     const handleTouchStart = (event: TouchEvent) => {
       touchStartY = event.touches[0].clientY;
     };
+
     const handleTouchEnd = (event: TouchEvent) => {
       touchEndY = event.changedTouches[0].clientY;
       const deltaY = touchStartY - touchEndY;
+
       if (Math.abs(deltaY) > threshold) {
-        if (deltaY > 0 && currentSectionIndex.current < sectionsRef.current.length - 1) {
+        const activeSection = sectionsRef.current[currentSectionIndex.current];
+        const inner =
+          activeSection.querySelector<HTMLElement>(".section-content");
+
+        if (inner) {
+          const { scrollTop, scrollHeight, clientHeight } = inner;
+
+          // If scrolling down but inner isn’t at its bottom, do normal scroll
+          if (deltaY > 0 && scrollTop + clientHeight < scrollHeight) {
+            return;
+          }
+          // If scrolling up but inner isn’t at its top, do normal scroll
+          if (deltaY < 0 && scrollTop > 0) {
+            return;
+          }
+        }
+
+        // Otherwise—inner is at boundary—perform the snap
+        if (
+          deltaY > 0 &&
+          currentSectionIndex.current < sectionsRef.current.length - 1
+        ) {
           scrollToSection(currentSectionIndex.current + 1);
         } else if (deltaY < 0 && currentSectionIndex.current > 0) {
           scrollToSection(currentSectionIndex.current - 1);
         }
       }
     };
-    snapContainer.addEventListener("touchstart", handleTouchStart, { passive: true });
-    snapContainer.addEventListener("touchend", handleTouchEnd, { passive: true });
+
+    snapContainer.addEventListener("touchstart", handleTouchStart, {
+      passive: true,
+    });
+    snapContainer.addEventListener("touchend", handleTouchEnd, {
+      passive: true,
+    });
+
     return () => {
       snapContainer.removeEventListener("touchstart", handleTouchStart);
       snapContainer.removeEventListener("touchend", handleTouchEnd);
@@ -116,7 +152,12 @@ const App: React.FC = () => {
 
   const scrollToSection = (index: number) => {
     const snapContainer = snapContainerRef.current;
-    if (!snapContainer || isScrolling.current || index < 0 || index >= sectionsRef.current.length)
+    if (
+      !snapContainer ||
+      isScrolling.current ||
+      index < 0 ||
+      index >= sectionsRef.current.length
+    )
       return;
     isScrolling.current = true;
     currentSectionIndex.current = index;
@@ -135,7 +176,9 @@ const App: React.FC = () => {
 
   const handleNavItemClick = (href: string) => {
     const sectionId = href.startsWith("#") ? href.slice(1) : href;
-    const index = sectionsRef.current.findIndex((section) => section.id === sectionId);
+    const index = sectionsRef.current.findIndex(
+      (section) => section.id === sectionId
+    );
     if (index !== -1) {
       scrollToSection(index);
     }
@@ -145,34 +188,58 @@ const App: React.FC = () => {
 
   return (
     <div className="vw-100">
-      <NavBar icon={<DraggableIcon darkMode={darkMode} />} darkMode={darkMode} toggleDarkMode={toggleDarkMode}>
-        <NavItem href="#home" onClick={handleNavItemClick}>Home</NavItem>
-        <NavItem href="#about" onClick={handleNavItemClick}>About</NavItem>
-        <NavItem href="#projects" onClick={handleNavItemClick}>Projects</NavItem>
-        <NavItem href="#contact" onClick={handleNavItemClick}>Contact</NavItem>
+      <NavBar
+        icon={<DraggableIcon darkMode={darkMode} />}
+        darkMode={darkMode}
+        toggleDarkMode={toggleDarkMode}
+      >
+        <NavItem href="#home" onClick={handleNavItemClick}>
+          Home
+        </NavItem>
+        <NavItem href="#about" onClick={handleNavItemClick}>
+          About
+        </NavItem>
+        <NavItem href="#projects" onClick={handleNavItemClick}>
+          Projects
+        </NavItem>
+        <NavItem href="#contact" onClick={handleNavItemClick}>
+          Contact
+        </NavItem>
       </NavBar>
 
       <div ref={snapContainerRef} className="container-fluid snap-container">
         {/* Home Section */}
         <section id="home" className="snap-section">
-          <div className="container h-100">
+          <div className="section-content container h-100">
             <div className="row h-100">
               {isMobile ? (
                 // Mobile: Text takes full width; image is hidden; add a "View Image" button
                 <div className="col-12 d-flex flex-column justify-content-center h-100">
                   <h1>Home</h1>
                   <p>
-                    I'm Cameron Cartwright, a <strong>Software Engineering student</strong> at{" "}
-                    <strong>Bournemouth University</strong> passionate about building{" "}
-                    <strong>efficient and scalable digital solutions</strong> using{" "}
-                    <strong>modern web technologies</strong>. I blend solid academic foundations with{" "}
-                    <strong>hands-on experience</strong> to transform innovative ideas into practical applications.
-                    <br /><br />
-                    In my projects, I've focused on developing <strong>dynamic web applications</strong> and{" "}
-                    <strong>optimizing user experiences</strong>. Whether it's enhancing a digital platform or crafting intuitive interfaces,
-                    I'm dedicated to delivering <strong>high-quality, reliable software</strong>. Explore my portfolio to see my work in action.
+                    I'm Cameron Cartwright, a{" "}
+                    <strong>Software Engineering student</strong> at{" "}
+                    <strong>Bournemouth University</strong> passionate about
+                    building{" "}
+                    <strong>efficient and scalable digital solutions</strong>{" "}
+                    using <strong>modern web technologies</strong>. I blend
+                    solid academic foundations with{" "}
+                    <strong>hands-on experience</strong> to transform innovative
+                    ideas into practical applications.
+                    <br />
+                    <br />
+                    In my projects, I've focused on developing{" "}
+                    <strong>dynamic web applications</strong> and{" "}
+                    <strong>optimizing user experiences</strong>. Whether it's
+                    enhancing a digital platform or crafting intuitive
+                    interfaces, I'm dedicated to delivering{" "}
+                    <strong>high-quality, reliable software</strong>. Explore my
+                    portfolio to see my work in action.
                   </p>
-                  <button className="btn btn-secondary" onClick={() => openModal("Home.jpg")}>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => openModal("Home.jpg")}
+                  >
                     View Image
                   </button>
                 </div>
@@ -182,15 +249,24 @@ const App: React.FC = () => {
                   <div className="col-6 d-flex flex-column justify-content-center h-100">
                     <h1>Home</h1>
                     <p>
-                      I'm Cameron Cartwright, a <strong>Software Engineering student</strong> at{" "}
-                      <strong>Bournemouth University</strong> passionate about building{" "}
-                      <strong>efficient and scalable digital solutions</strong> using{" "}
-                      <strong>modern web technologies</strong>. I blend solid academic foundations with{" "}
-                      <strong>hands-on experience</strong> to transform innovative ideas into practical applications.
-                      <br /><br />
-                      In my projects, I've focused on developing <strong>dynamic web applications</strong> and{" "}
-                      <strong>optimizing user experiences</strong>. Whether it's enhancing a digital platform or crafting intuitive interfaces,
-                      I'm dedicated to delivering <strong>high-quality, reliable software</strong>. Explore my portfolio to see my work in action.
+                      I'm Cameron Cartwright, a{" "}
+                      <strong>Software Engineering student</strong> at{" "}
+                      <strong>Bournemouth University</strong> passionate about
+                      building{" "}
+                      <strong>efficient and scalable digital solutions</strong>{" "}
+                      using <strong>modern web technologies</strong>. I blend
+                      solid academic foundations with{" "}
+                      <strong>hands-on experience</strong> to transform
+                      innovative ideas into practical applications.
+                      <br />
+                      <br />
+                      In my projects, I've focused on developing{" "}
+                      <strong>dynamic web applications</strong> and{" "}
+                      <strong>optimizing user experiences</strong>. Whether it's
+                      enhancing a digital platform or crafting intuitive
+                      interfaces, I'm dedicated to delivering{" "}
+                      <strong>high-quality, reliable software</strong>. Explore
+                      my portfolio to see my work in action.
                     </p>
                   </div>
                   <div className="col-6 d-flex align-items-center justify-content-center h-100">
@@ -203,55 +279,114 @@ const App: React.FC = () => {
         </section>
 
         {/* About Section */}
-        <section id="about" className="d-flex justify-content-center align-items-center snap-section">
+        <section id="about" className="snap-section">
           <div className="container h-100">
             <div className="row h-100">
               {isMobile ? (
-                // Mobile: Text takes full width; image hidden; add a "View Image" button
-                <div className="col-12 d-flex flex-column justify-content-center h-100">
+                // Mobile: full-width text + scroll + button
+                <div className="col-12 d-flex flex-column h-100">
                   <h1>About Me</h1>
-                  <p>
-                    From an early age, I've been deeply fascinated by <strong>superheroes</strong>, <strong>video games</strong>,
-                    and <strong>animation</strong>. One show that particularly captured my imagination was <strong>Ben 10</strong>, sparking
-                    my <strong>enduring passion for technology</strong>.
-                    <br /><br />
-                    At the age of <strong>14</strong>, guided by <strong>online tutorials</strong> and <strong>curiosity</strong>, I took my first steps into
-                    programming. My first significant project was a <strong>Discord bot named Spectre</strong>, built using <strong>Node.js</strong>.
-                    Over six months, I gained <strong>hands-on experience</strong> with <strong>programming fundamentals</strong>, <strong>administrative tasks</strong>,
-                    <strong> user interactions</strong>, and <strong>fun API integrations</strong>.
-                    <br /><br />
-                    My journey into programming didn't stop there—it only deepened. I continuously strive to <strong>expand my technical knowledge</strong>,
-                    exploring <strong>new technologies</strong> and <strong>tools</strong>. <strong>Building this portfolio website</strong> offered me the exciting
-                    opportunity to learn <strong>React</strong>, a <strong>modern JavaScript framework</strong>, along with various other <strong>cutting-edge technologies</strong>.
-                    Creating this site has significantly enhanced my <strong>technical skills</strong>, and I am eager to continue <strong>innovating</strong> and <strong>growing in the field</strong>.
-                  </p>
-                  <button className="btn btn-secondary" onClick={() => openModal("AboutMe.jpg")}>
+                  <div
+                    className="overflow-auto flex-grow-1"
+                    id="about-text"
+                    style={{ paddingRight: "1rem" }}
+                  >
+                    <p>
+                      From an early age, I've been deeply fascinated by{" "}
+                      <strong>superheroes</strong>, <strong>video games</strong>
+                      , and <strong>animation</strong>. One show that
+                      particularly captured my imagination was{" "}
+                      <strong>Ben 10</strong>, sparking my{" "}
+                      <strong>enduring passion for technology</strong>.
+                    </p>
+                    <p>
+                      At the age of <strong>14</strong>, guided by{" "}
+                      <strong>online tutorials</strong> and{" "}
+                      <strong>curiosity</strong>, I took my first steps into
+                      programming. My first significant project was a Discord
+                      bot named <strong>Spectre</strong>, built using{" "}
+                      <strong>Node.js</strong>. Over six months, I gained{" "}
+                      <strong>hands-on experience</strong> with programming
+                      fundamentals, administrative tasks, user interactions, and
+                      fun API integrations.
+                    </p>
+                    <p>
+                      My journey into programming didn't stop there—it only
+                      deepened. I continuously strive to{" "}
+                      <strong>expand my technical knowledge</strong>, exploring
+                      new technologies and tools. Building this portfolio
+                      website offered me the exciting opportunity to learn{" "}
+                      <strong>React</strong>, a modern JavaScript framework,
+                      along with various other{" "}
+                      <strong>cutting-edge technologies</strong>. Creating this
+                      site has significantly enhanced my{" "}
+                      <strong>technical skills</strong>, and I am eager to
+                      continue innovating and growing in the field.
+                    </p>
+                  </div>
+                  <button
+                    className="btn btn-secondary mt-3"
+                    onClick={() => openModal("AboutMe.jpg")}
+                  >
                     View Image
                   </button>
                 </div>
               ) : (
-                // Desktop: Two-column layout with image on left
+                // Desktop: image on left, text on right
                 <>
-                  <div className="col-6 d-flex align-items-center justify-content-center h-100">
-                    <Image href="AboutMe.jpg" alt="Bournemouth University" />
+                  <div className="col-12 col-md-6 d-flex align-items-center justify-content-center h-100">
+                    <div
+                      className="rounded overflow-hidden"
+                      style={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}
+                    >
+                      <Image
+                        href="AboutMe.jpg"
+                        alt="About Me"
+                        className="img-fluid"
+                      />
+                    </div>
                   </div>
-                  <div className="col-6 d-flex flex-column justify-content-center h-100">
+                  <div className="col-12 col-md-6 d-flex flex-column h-100">
                     <h1>About Me</h1>
-                    <p>
-                      From an early age, I've been deeply fascinated by <strong>superheroes</strong>, <strong>video games</strong>,
-                      and <strong>animation</strong>. One show that particularly captured my imagination was <strong>Ben 10</strong>, sparking
-                      my <strong>enduring passion for technology</strong>.
-                      <br /><br />
-                      At the age of <strong>14</strong>, guided by <strong>online tutorials</strong> and <strong>curiosity</strong>, I took my first steps into
-                      programming. My first significant project was a <strong>Discord bot named Spectre</strong>, built using <strong>Node.js</strong>.
-                      Over six months, I gained <strong>hands-on experience</strong> with <strong>programming fundamentals</strong>, <strong>administrative tasks</strong>,
-                      <strong> user interactions</strong>, and <strong>fun API integrations</strong>.
-                      <br /><br />
-                      My journey into programming didn't stop there—it only deepened. I continuously strive to <strong>expand my technical knowledge</strong>,
-                      exploring <strong>new technologies</strong> and <strong>tools</strong>. <strong>Building this portfolio website</strong> offered me the exciting
-                      opportunity to learn <strong>React</strong>, a <strong>modern JavaScript framework</strong>, along with various other <strong>cutting-edge technologies</strong>.
-                      Creating this site has significantly enhanced my <strong>technical skills</strong>, and I am eager to continue <strong>innovating</strong> and <strong>growing in the field</strong>.
-                    </p>
+                    <div
+                      className="overflow-auto flex-grow-1"
+                      id="about-text"
+                      style={{ paddingRight: "1rem" }}
+                    >
+                      <p>
+                        From an early age, I've been deeply fascinated by{" "}
+                        <strong>superheroes</strong>,{" "}
+                        <strong>video games</strong>, and{" "}
+                        <strong>animation</strong>. One show that particularly
+                        captured my imagination was <strong>Ben 10</strong>,
+                        sparking my{" "}
+                        <strong>enduring passion for technology</strong>.
+                      </p>
+                      <p>
+                        At the age of <strong>14</strong>, guided by{" "}
+                        <strong>online tutorials</strong> and{" "}
+                        <strong>curiosity</strong>, I took my first steps into
+                        programming. My first significant project was a Discord
+                        bot named <strong>Spectre</strong>, built using{" "}
+                        <strong>Node.js</strong>. Over six months, I gained{" "}
+                        <strong>hands-on experience</strong> with programming
+                        fundamentals, administrative tasks, user interactions,
+                        and fun API integrations.
+                      </p>
+                      <p>
+                        My journey into programming didn't stop there—it only
+                        deepened. I continuously strive to{" "}
+                        <strong>expand my technical knowledge</strong>,
+                        exploring new technologies and tools. Building this
+                        portfolio website offered me the exciting opportunity to
+                        learn <strong>React</strong>, a modern JavaScript
+                        framework, along with various other{" "}
+                        <strong>cutting-edge technologies</strong>. Creating
+                        this site has significantly enhanced my{" "}
+                        <strong>technical skills</strong>, and I am eager to
+                        continue innovating and growing in the field.
+                      </p>
+                    </div>
                   </div>
                 </>
               )}
@@ -260,13 +395,23 @@ const App: React.FC = () => {
         </section>
 
         {/* Projects Section */}
-        <section id="projects" className="d-flex justify-content-center align-items-center snap-section">
-          <ProjectsCarousel />
+        <section
+          id="projects"
+          className="d-flex justify-content-center align-items-center snap-section"
+        >
+          <div className="section-content container h-100">
+            <ProjectsCarousel />
+          </div>
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="d-flex flex-column justify-content-center align-items-center snap-section">
-          <SocialMedia />
+        <section
+          id="contact"
+          className="d-flex flex-column justify-content-center align-items-center snap-section"
+        >
+          <div className="section-content container h-100">
+            <SocialMedia />
+          </div>
         </section>
       </div>
 
