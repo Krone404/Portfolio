@@ -381,7 +381,7 @@ body.dark-mode .card {
 /* 1 card per view once viewport is under 768px */
 @media (max-width: 576px) {
   .card {
-    min-width: calc(100% / 2) !important; /* 2 cards per view */
+    min-width: 200px !important; /* 2 cards per view */
   }
 }
 
