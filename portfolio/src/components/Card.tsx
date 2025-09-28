@@ -19,7 +19,6 @@ function Card({
     imageUrl.startsWith("http://") || imageUrl.startsWith("https://");
   // Use the absolute URL directly, otherwise assume it's in /images/
   const src = isAbsoluteUrl ? imageUrl : `/images/${imageUrl}`;
-  console.log(src);
 
   return (
     <div className="card h-100 d-flex flex-column">

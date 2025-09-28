@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef, useEffect } from "react";
+import React, { ReactNode, useEffect, useRef } from "react";
 import gsap from "gsap";
 
 interface NavItemProps {
@@ -18,28 +18,44 @@ const NavItem: React.FC<NavItemProps> = ({ children, href = "#", onClick }) => {
     }
   }, []);
 
+  const animateActive = () => {
+    if (!liRef.current) return;
+
+    gsap.to(liRef.current, {
+      duration: 0.3,
+      x: 0,
+      y: 0,
+      scale: 1.05,
+      ease: "power2.out",
+    });
+  };
+
+  const animateResting = () => {
+    if (!liRef.current) return;
+
+    gsap.to(liRef.current, {
+      duration: 0.3,
+      x: 5,
+      y: 5,
+      scale: 1,
+      ease: "power2.inOut",
+    });
+  };
+
   const handleMouseEnter = () => {
-    if (liRef.current) {
-      gsap.to(liRef.current, {
-        duration: 0.3,
-        x: 0,
-        y: 0,
-        scale: 1.05,
-        ease: "power2.out",
-      });
-    }
+    animateActive();
   };
 
   const handleMouseLeave = () => {
-    if (liRef.current) {
-      gsap.to(liRef.current, {
-        duration: 0.3,
-        x: 5,
-        y: 5,
-        scale: 1,
-        ease: "power2.inOut",
-      });
-    }
+    animateResting();
+  };
+
+  const handleFocus = () => {
+    animateActive();
+  };
+
+  const handleBlur = () => {
+    animateResting();
   };
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -55,6 +71,8 @@ const NavItem: React.FC<NavItemProps> = ({ children, href = "#", onClick }) => {
       className="nav-item nav-hover-effect ms-5"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
     >
       <a className="nav-link" href={href} onClick={handleClick}>
         {children}

@@ -214,8 +214,8 @@ const App: React.FC = () => {
             <div className="row h-100">
               {isMobile ? (
                 // Mobile: Text takes full width; image is hidden; add a "View Image" button
-                <div className="col-12 d-flex flex-column justify-content-center h-100">
-                  <h1>Home</h1>
+                <div className="col-12 d-flex flex-column justify-content-center h-100 text-column">
+                  <h1 className="section-title">Home</h1>
                   <p>
                     I'm Cameron Cartwright, a{" "}
                     <strong>Software Engineering student</strong> at{" "}
@@ -246,8 +246,8 @@ const App: React.FC = () => {
               ) : (
                 // Desktop: Two-column layout with image
                 <>
-                  <div className="col-6 d-flex flex-column justify-content-center h-100">
-                    <h1>Home</h1>
+                  <div className="col-6 d-flex flex-column justify-content-center h-100 text-column">
+                    <h1 className="section-title">Home</h1>
                     <p>
                       I'm Cameron Cartwright, a{" "}
                       <strong>Software Engineering student</strong> at{" "}
@@ -285,9 +285,9 @@ const App: React.FC = () => {
               {isMobile ? (
                 // Mobile: full-width text + scroll + button
                 <div className="col-12 d-flex flex-column h-100">
-                  <h1>About Me</h1>
+                  <h1 className="section-title">About Me</h1>
                   <div
-                    className="overflow-auto flex-grow-1"
+                    className="overflow-auto flex-grow-1 text-column"
                     id="about-text"
                     style={{ paddingRight: "1rem" }}
                   >
@@ -347,9 +347,9 @@ const App: React.FC = () => {
                     </div>
                   </div>
                   <div className="col-12 col-md-6 d-flex flex-column h-100">
-                    <h1>About Me</h1>
+                    <h1 className="section-title">About Me</h1>
                     <div
-                      className="overflow-auto flex-grow-1"
+                      className="overflow-auto flex-grow-1 text-column"
                       id="about-text"
                       style={{ paddingRight: "1rem" }}
                     >
