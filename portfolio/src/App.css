@@ -329,8 +329,8 @@ body.dark-mode .arrow-btn img {
 }
 
 body.dark-mode .arrow-btn.disabled img {
-  filter: brightness(0) saturate(100%) invert(0%) sepia(5%) saturate(2610%)
-    hue-rotate(336deg) brightness(109%) contrast(86%);
+  filter: brightness(0) saturate(100%) invert(26%) sepia(0%) saturate(0%)
+    hue-rotate(168deg) brightness(88%) contrast(109%);
 }
 
 .arrow-btn:not(:disabled):hover {
@@ -365,7 +365,6 @@ body.dark-mode .arrow-btn.disabled img {
   max-width: 90%;
   margin-inline: auto;
 }
-
 
 @supports selector(.carousel-track:has(.carousel-slide:only-child)) {
   .carousel-track:has(.carousel-slide:only-child) {
@@ -531,7 +530,6 @@ body.dark-mode .carousel-placeholder {
   overflow: hidden;
 }
 
-
 /* Adjusted scroll‐pane height to make room for the button */
 #about .text-scroll-pane {
   height: calc(100vh - var(--navbar-height) - 5rem - 3rem);
@@ -588,11 +586,3 @@ body.dark-mode #about-text::-webkit-scrollbar-track {
   border-radius: 8px;
   background-color: var(--slightly_off_black);
 }
-
-
-
-
-
-
-
-
